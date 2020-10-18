@@ -1,0 +1,74 @@
+[18-Jul-2020 14:45:59 UTC] PHP Warning:  Module 'PDO' already loaded in Unknown on line 0
+[18-Jul-2020 14:45:59 UTC] PHP Warning:  Module 'pdo_sqlite' already loaded in Unknown on line 0
+[18-Jul-2020 14:45:59 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 14:45:59 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 14:46:11 UTC] PHP Warning:  Module 'PDO' already loaded in Unknown on line 0
+[18-Jul-2020 14:46:11 UTC] PHP Warning:  Module 'pdo_sqlite' already loaded in Unknown on line 0
+[18-Jul-2020 14:46:11 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 14:46:11 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 14:46:12 UTC] PHP Warning:  Module 'PDO' already loaded in Unknown on line 0
+[18-Jul-2020 14:46:12 UTC] PHP Warning:  Module 'pdo_sqlite' already loaded in Unknown on line 0
+[18-Jul-2020 14:46:12 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 14:46:12 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 15:41:08 UTC] PHP Warning:  Module 'PDO' already loaded in Unknown on line 0
+[18-Jul-2020 15:41:08 UTC] PHP Warning:  Module 'pdo_sqlite' already loaded in Unknown on line 0
+[18-Jul-2020 15:41:08 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 15:41:08 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  Module 'PDO' already loaded in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  Module 'pdo_sqlite' already loaded in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  Module 'PDO' already loaded in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  Module 'pdo_sqlite' already loaded in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/sqlite.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[18-Jul-2020 15:41:23 UTC] PHP Warning:  PHP Startup: Unable to load dynamic library '/opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so' - /opt/cpanel/ea-php56/root/usr/lib64/php/modules/pdo_mysql.so: cannot open shared object file: No such file or directory in Unknown on line 0
+[04-Oct-2020 17:18:42 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:19:39 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:20:39 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:20:42 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:20:54 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:20:58 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:21:03 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:21:07 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:21:14 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:21:25 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:35:55 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:41:25 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:41:38 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:41:57 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:42:03 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:42:16 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:42:26 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:42:32 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 130
+[04-Oct-2020 17:58:52 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 17:58:56 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 17:59:25 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:01:00 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:01:10 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:02:17 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:03:14 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:04:12 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:04:19 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:04:24 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:05:06 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:08:42 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:09:25 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:09:54 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:11:50 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:11:54 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:24:30 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:24:34 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:24:38 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:24:43 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:24:50 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:26:21 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:27:49 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:28:11 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:28:20 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:29:52 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:29:58 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:30:11 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:30:16 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:35:14 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:35:25 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135
+[04-Oct-2020 18:42:30 UTC] PHP Fatal error:  Call to a member function num_rows() on boolean in /home/theeconclz/public_html/class/application/controllers/Course_controller.php on line 135

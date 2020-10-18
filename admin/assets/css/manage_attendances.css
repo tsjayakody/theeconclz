@@ -1,0 +1,13 @@
+.statusDiv img {
+    max-height: 150px;
+    width: auto;
+}
+.success {
+    color: rgb(0, 156, 0);
+    font-weight: 600;
+}
+
+.failed {
+    color: rgb(161, 0, 0);
+    font-weight: 600;
+}
