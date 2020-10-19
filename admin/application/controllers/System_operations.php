@@ -32,6 +32,25 @@ class System_operations extends CI_Controller {
 			echo json_encode(array('error' => 'No teachers found in the system'));
 		}
 	}
+	
+	// delete the student
+	public function delete_student () {
+		// check for eligibility for user to execute operation
+		$res = $this->user_model->validate_user_access('usd');
+		if ($res === false) {
+			exit(json_encode(array('error'=>'You have no permission to perform this action')));
+		} else {
+
+			$id = $this->input->post('student_id');
+
+			if ($this->db->where('idstudents', $id)->delete('students') == FALSE) {
+				echo json_encode(array('success' => FALSE));
+			} else {
+				echo json_encode(array('success' => TRUE));
+			}
+
+		}
+	}
 
 	// get all the teachers form add course
 	public function get_t_for_add_cu () {
@@ -68,7 +87,7 @@ class System_operations extends CI_Controller {
 			exit(json_encode(array('error'=>'You have no permission to perform this action')));
 		}
 
-		$this->db->select('category_name, idcourse_category, idcourses, monthly_fee, idteachers, idsubjects, course_name, courses.description, teachers_name, subject_name');
+	    $this->db->select('category_name, idcourse_category, idcourses, monthly_fee, idteachers, idsubjects, course_name, courses.description, teachers_name,subject_name,is_display');
 		$this->db->from('courses');
 		$this->db->join('subjects', 'idsubjects = subjects_idsubjects');
 		$this->db->join('teachers', 'idteachers = teachers_idteachers');
@@ -117,27 +136,6 @@ class System_operations extends CI_Controller {
 		}
 	}
 
-	// delete the student
-	public function delete_student () {
-		// check for eligibility for user to execute operation
-		$res = $this->user_model->validate_user_access('usd');
-		if ($res === false) {
-			exit(json_encode(array('error'=>'You have no permission to perform this action')));
-		} else {
-
-			$id = $this->input->post('student_id');
-
-			if ($this->db->where('idstudents', $id)->delete('students') == FALSE) {
-				echo json_encode(array('success' => FALSE));
-			} else {
-				echo json_encode(array('success' => TRUE));
-			}
-
-		}
-	}
-
-
-	// delete the course
 	public function delete_course () {
 		// check for eligibility for user to execute operation
 		$res = $this->user_model->validate_user_access('udc');
@@ -151,6 +149,28 @@ class System_operations extends CI_Controller {
 				echo json_encode(array('success' => FALSE));
 			} else {
 				echo json_encode(array('success' => TRUE));
+			}
+
+		}
+	}
+	
+	public function update_view_hide () {
+		// check for eligibility for user to execute operation
+		$res = $this->user_model->validate_user_access('udc');
+		if ($res === false) {
+			exit(json_encode(array('error'=>'You have no permission to perform this action')));
+		} else {
+
+			$id = $this->input->post('course_id');
+			$st = $this->input->post('now');
+
+			$insertData = array(
+				'is_display' => $st
+			);
+			if ($this->db->where('idcourses', $id)->update('courses', $insertData)) {
+				echo json_encode(array('success' => TRUE));
+			} else {
+				echo json_encode(array('success' => FALSE));
 			}
 
 		}
@@ -441,6 +461,43 @@ class System_operations extends CI_Controller {
 
 	}
 
+	public function search_student_for_assign_sub () {
+		// check for eligibility for user to execute operation
+		$res = $this->user_model->validate_user_access('adc');
+		if ($res === false) {
+			exit(json_encode(array('error'=>'You have no permission to perform this action')));
+		}
+
+		$name = $this->input->post('name');
+		$email = $this->input->post('email');
+		$phone = $this->input->post('phone');
+		$id = $this->input->post('id');
+
+		$this->db->select('idstudents, first_name, last_name, phone_number, email');
+		$this->db->from('students');
+
+		if ($name != "") {
+			$this->db->like('CONCAT (`first_name`, " ", `last_name`)', $name, 'after');
+			$this->db->or_like('CONCAT (`last_name`, " ", `first_name`)', $name, 'after');
+		}
+		
+		if ($email != "") $this->db->like('email', $email, 'after');
+
+		if ($phone != "") $this->db->like('phone_number', $phone_number, 'after');
+
+		if ($id != "") $this->db->where('idstudents', $id);
+
+		$this->db->limit(5);
+		$requests = $this->db->get();
+
+		if ($requests->num_rows() > 0) {
+			echo json_encode($requests->result_array());
+		} else {
+			echo json_encode(array());
+		}
+
+	}
+
 
 	public function get_all_requests () {
 
@@ -571,15 +628,50 @@ class System_operations extends CI_Controller {
 
 	public function get_all_non_allowed_subs () {
 
-		// check for eligibility for user to execute operation
+	// check for eligibility for user to execute operation
 		$res = $this->user_model->validate_user_access('acts');
 		if ($res === false) {
 			exit(json_encode(array('error'=>'You have no permission to perform this action')));
 		}
+		$course_id = $this->input->post('course_id');
+
+		
+		if($course_id==""){
+			$data = $this->db->select('*')->from('subscriptions')
+									->join('students', 'students_idstudents = idstudents')
+									->join('courses', 'idcourses = courses_idcourses')
+									->where('is_allowed', 0)
+									->get()->result_array();
+
+		}else{
+			$data = $this->db->select('*')->from('subscriptions')
+									->join('students', 'students_idstudents = idstudents')
+									->join('courses', 'idcourses = courses_idcourses')
+									->where('is_allowed', 0)
+									->where('courses_idcourses', $course_id)
+									->get()->result_array();
+		}
+
+		echo json_encode(array('subs' => $data));
+
+	}
+
+
+	public function get_all_allowed_subs () {
+
+	// check for eligibility for user to execute operation
+		$res = $this->user_model->validate_user_access('acts');
+		if ($res === false) {
+			exit(json_encode(array('error'=>'You have no permission to perform this action')));
+		}
+		$course_id = $this->input->post('course_id');
 
 		$data = $this->db->select('*')->from('subscriptions')
 									->join('students', 'students_idstudents = idstudents')
-									->join('courses', 'idcourses = courses_idcourses')->where('is_allowed', 0)->get()->result_array();
+									->join('courses', 'idcourses = courses_idcourses')
+									->where('is_allowed', 1)
+									->where('courses_idcourses', $course_id)
+									->get()->result_array();
 
 		echo json_encode(array('subs' => $data));
 
@@ -596,9 +688,9 @@ class System_operations extends CI_Controller {
 		$id = $this->input->post('sub_id');
 
 		if ($this->db->where('idsubscriptions', $id)->delete('subscriptions')) {
-			echo json_decode(array('success' => true));
+			echo json_encode(array('success' => true));
 		} else {
-			echo json_decode(array('success' => false));
+			echo json_encode(array('success' => false));
 		}
 	}
 
@@ -626,27 +718,65 @@ class System_operations extends CI_Controller {
 		);
 
 		if ($this->db->where('idsubscriptions', $sub_id)->update('subscriptions', $update_array)) {
-			echo json_decode(array('success' => true));
+			echo json_encode(array('success' => true));
 		} else {
-			echo json_decode(array('success' => false));
+			echo json_encode(array('success' => false));
 		}
 	}
 
-	public function getAllStudents () {
+	public function getAllStudents() {
 
+	
 		// check for eligibility for user to execute operation
 		$res = $this->user_model->validate_user_access('acts');
 		if ($res === false) {
 			exit(json_encode(array('error'=>'You have no permission to perform this action')));
 		}
 
-		$this->db->select('*');    
-		$this->db->from('students');
-		$this->db->join('exam_year', 'students.id_exam_year = exam_year.id_exam_year');
-		$students = $this->db->get()->result_array();
+		$year_id = $this->input->post('category_id');
 
+	    if ($year_id == "") {
+			$this->db->select('students.first_name,students.last_name,students.email,students.phone_number,students.student_id,students.school,students.student_city,students.created_at,exam_year.years'); 
+			$this->db->from('students');
+			$this->db->join('exam_year', 'students.id_exam_year = exam_year.id_exam_year');
+			
+		}else{
+		
+			
+			$this->db->select('students.first_name,students.last_name,students.email,students.phone_number,students.student_id,students.school,students.student_city,students.created_at,exam_year.years'); 
+			$this->db->from('students');
+			$this->db->join('exam_year', 'students.id_exam_year = exam_year.id_exam_year');
+			$this->db->where('students.id_exam_year',$year_id);
+		}
+	    
+	    
+		$data = $this->db->get();
+		if ($data->num_rows() > 0) {
+			echo json_encode($data->result_array());
+		} else {
+			echo json_encode(array('error' => 'No data found.'));
+		}   
+
+		/*
+		$year_id = $this->input->post('category_id');
+		if($year_id==""){
+
+			$this->db->select('students.first_name,students.last_name,students.email,students.phone_number,students.student_id,students.school,students.student_city,students.created_at,exam_year.years'); 
+			$this->db->from('students');
+			$this->db->join('exam_year', 'students.id_exam_year = exam_year.id_exam_year');
+			$students = $this->db->get()->result_array();
+
+		}else{
+
+			$this->db->select('students.first_name,students.last_name,students.email,students.phone_number,students.student_id,students.school,students.student_city,students.created_at,exam_year.years'); 
+			$this->db->from('students');
+			$this->db->join('exam_year', 'students.id_exam_year = exam_year.id_exam_year');
+			$this->db->where('students.id_exam_year',$year_id);
+			$students = $this->db->get()->result_array();
+
+		}
 		//$students = $this->db->get('students')->result_array();
-		echo json_encode(array('students'=> $students));
+		echo json_encode(array('students'=> $students));*/
 
 	}
 
@@ -707,13 +837,53 @@ class System_operations extends CI_Controller {
 	}
 
 	public function get_all_students () {
-		// check for eligibility for user to execute operation
-		$res = $this->user_model->validate_user_access('usd');
+	    
+	    // check for eligibility for user to execute operation
+		$res = $this->user_model->validate_user_access('acts');
 		if ($res === false) {
 			exit(json_encode(array('error'=>'You have no permission to perform this action')));
 		}
-    	$students = $this->db->get('students');
-    	echo json_encode($students->result_array());
+
+		$year_id = $this->input->post('category_id');
+
+		$this->db->select('students.first_name,students.last_name,students.email,students.phone_number,students.student_id,students.school,students.student_city,students.created_at,exam_year.years'); 
+		$this->db->from('students');
+		$this->db->join('exam_year', 'students.id_exam_year = exam_year.id_exam_year');
+
+		if ($year_id !== null && $year_id !== "") {
+			$this->db->where('students.id_exam_year',$year_id);
+		}
+		$data = $this->db->get();
+		if ($data->num_rows() > 0) {
+			echo json_encode($data->result_array());
+		} else {
+			echo json_encode(array('error' => 'No data found.'));
+		}
+	    
+	/*	// check for eligibility for user to execute operation
+	$res = $this->user_model->validate_user_access('usd');
+		if ($res === false) {
+			exit(json_encode(array('error'=>'You have no permission to perform this action')));
+		}
+    	//$students = $this->db->get('students');
+    	$year_id = $this->input->post('category_id');
+		
+		if($year_id==""){
+
+			$this->db->select('*');    
+			$this->db->from('students');
+			$students = $this->db->get()->result_array();
+			
+		}else{
+
+			$this->db->select('*');    
+			$this->db->from('students');
+			$this->db->where('id_exam_year',$year_id);
+			$students = $this->db->get()->result_array();
+			
+		}
+    	echo json_encode($students);
+    	*/
 	}
 
 	public function get_all_categories () {

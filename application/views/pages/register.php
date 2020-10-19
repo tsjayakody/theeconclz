@@ -325,6 +325,7 @@
                         } else {
                             Notiflix.Notify.Success('Account created. Please verify your account with code which is sent to your phone number.');
                             verificationModal.showVerifyModel = true;
+                           
                         }
                     }).catch((error) => {
                         Notiflix.Notify.Failure('Something went wrong. Try again.');

@@ -103,68 +103,138 @@
 
 
 	<div v-if="showModal">
-    <transition name="modal">
-      <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Time Slots</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true" @click="showModal = false">&times;</span>
-                </button>
-              	</div>
-              	<div class="modal-body">
+	    <transition name="modal">
+	      <div class="modal-mask">
+	        <div class="modal-wrapper">
+	          <div class="modal-dialog modal-lg" role="document">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <h5 class="modal-title">Time Slots</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                  <span aria-hidden="true" @click="showModal = false">&times;</span>
+	                </button>
+	              	</div>
+	              	<div class="modal-body">
 
-				  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>From</th>
-                          <th>To</th>
-                          <th class="text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="slot in timeslots">
-                          <td>{{slot.available_from}}</td>
-                          <td>{{slot.available_to}}</td>
-                          <td class="td-actions text-right">
-                            <button  type="button" v-on:click="deleteSlot(slot.idavailable_timeslots)"   rel="tooltip" class="btn btn-danger">
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+					  <div class="table-responsive">
+	                    <table class="table">
+	                      <thead>
+	                        <tr>
+	                          <th>From</th>
+	                          <th>To</th>
+	                          <th class="text-right">Actions</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                        <tr v-for="slot in timeslots">
+	                          <td>{{slot.available_from}}</td>
+	                          <td>{{slot.available_to}}</td>
+	                          <td class="td-actions text-right">
+	                            <button  type="button" v-on:click="deleteSlot(slot.idavailable_timeslots)"   rel="tooltip" class="btn btn-danger">
+	                              Delete
+	                            </button>
+	                          </td>
+	                        </tr>
+	                      </tbody>
+	                    </table>
+	                  </div>
 
-				  
-				  	<h5 class="modal-title text-center bg-dark text-white"> Add Timeslot </h5>
-					  	<div class="row">
-							<div class="col-md-5">
-								<div class="form-group">
-									<input id="datetimepicker1" @click="initpicker" type="text" class="form-control datetimepicker" value="<?php date_default_timezone_set('Asia/Colombo'); echo date('Y:m:d h:i A') ?>">
+					  
+					  	<h5 class="modal-title text-center bg-dark text-white"> Add Timeslot </h5>
+						  	<div class="row">
+								<div class="col-md-5">
+									<div class="form-group">
+										<input id="datetimepicker1" @click="initpicker" type="text" class="form-control datetimepicker" value="<?php date_default_timezone_set('Asia/Colombo'); echo date('Y:m:d h:i A') ?>">
+									</div>
+								</div>
+								<div class="col-md-5">
+									<div class="form-group">
+										<input id="datetimepicker2" @click="initpicker" type="text" class="form-control datetimepicker" value="<?php date_default_timezone_set('Asia/Colombo'); echo date('Y:m:d h:i A') ?>">
+									</div>
 								</div>
 							</div>
-							<div class="col-md-5">
-								<div class="form-group">
-									<input id="datetimepicker2" @click="initpicker" type="text" class="form-control datetimepicker" value="<?php date_default_timezone_set('Asia/Colombo'); echo date('Y:m:d h:i A') ?>">
-								</div>
-							</div>
-						</div>
-			  	
-              	</div>
-              	<div class="modal-footer">
-                	<button type="button" class="btn btn-secondary" @click="showModal = false">Close</button>
-                	<button id="btnLoader" type="button" @click="addtimeslot" class="btn btn-info">Add Timeslot</button>
-              	</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-  </div>
+				  	
+	              	</div>
+	              	<div class="modal-footer">
+	                	<button type="button" class="btn btn-secondary" @click="showModal = false">Close</button>
+	                	<button id="btnLoader" type="button" @click="addtimeslot" class="btn btn-info">Add Timeslot</button>
+	              	</div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </transition>
+  	</div>
+
+  	<div v-if="showSubModal">
+	    <transition name="modal">
+	      <div class="modal-mask">
+	        <div class="modal-wrapper">
+	          <div class="modal-dialog" style="max-width: 90%" role="document">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <h5 class="modal-title">Add Subscription To Student</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                  <span aria-hidden="true" @click="showSubModal = false">&times;</span>
+	                </button>
+	              	</div>
+	              	<div class="modal-body">
+	              		<div class="form-row">
+	              			<div class="col-md-4 form-group">
+	              				<input v-model="student_name" type="text" name="stname" id="stname" class="form-control" placeholder="Name">
+	              			</div>
+	              			<div class="col-md-4 form-group">
+	              				<input v-model="student_email" type="email" name="email" id="email" class="form-control" placeholder="E-Mail">
+	              			</div>
+	              			<div class="col-md-3 form-group">
+	              				<input v-model="student_phone" type="tel" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number">
+	              			</div>
+	              			<div class="col-md-1 form-group">
+	              				<input v-model="student_id" type="number" name="stid" id="stid" class="form-control" placeholder="ID">
+	              			</div>
+	              		</div>
+
+
+
+	              		<!-- first_name, last_name, Email, phone_number, idstudents -->
+
+					  <div class="table-responsive">
+					  	<h3 class="text-center mt-3 text-white bg-dark">Results</h5>
+	                    <table class="table">
+	                      <thead>
+	                        <tr>
+	                          <th>Student ID</th>
+	                          <th>Student Name</th>
+	                          <th>E-Mail</th>
+	                          <th>Phone</th>
+	                          <th class="text-right">Actions</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                        <tr v-for="(student, index) in students" v-bind:key="index">
+	                          <td>{{student.idstudents}}</td>
+	                          <td>{{student.first_name}} {{student.last_name}}</td>
+	                          <td>{{student.email}}</td>
+	                          <td>{{student.phone_number}}</td>
+	                          <td class="td-actions text-right">
+	                            <button class="btn btn-success" @click="addSub(student.idstudents)" type="button">
+	                            	Assign
+	                            </button>
+	                          </td>
+	                        </tr>
+	                      </tbody>
+	                    </table>
+	                  </div>	
+	              	</div>
+	              	<div class="modal-footer">
+	                	<button type="button" class="btn btn-secondary" @click="showSubModal = false">Close</button>
+	              	</div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </transition>
+  	</div>
 </div>
 
 
@@ -184,8 +254,57 @@
 			form_errors: '',
 			contents: '',
 			showModal: false,
+			showSubModal: true,
 			timeslots: '',
-			contentForTimeSlot: ''
+			contentForTimeSlot: '',
+
+			
+			students: '',
+			student_name: '',
+			student_email: '',
+			student_phone: '',
+			student_id: '',
+			awaitingSearch: false,
+		},
+
+		watch: {
+			student_name: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		          	console.log('innnn');
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			},
+			student_id: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			},
+			student_email: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			},
+			student_phone: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			}
 		},
 
 		methods: {
@@ -212,6 +331,10 @@
 				});
 			},
 
+			addSub (stid) {
+				
+			},
+
 			deleteSlot (param) {
 				let formData = new FormData();
 
@@ -236,6 +359,28 @@
 					Notiflix.Notify.Failure('Timeslot is not deleted.');
 					console.log(error.response);
 				})
+			},
+
+			searchStudent () {
+				
+				let formData = new FormData();
+				formData.append('name', this.student_name);
+				formData.append('email', this.student_email);
+				formData.append('phone', this.student_phone);
+				formData.append('id', this.student_id);
+
+				axios({
+					method: 'post',
+					url: '<?php echo base_url('system_operations/search_student_for_assign_sub') ?>',
+					data: formData
+				})
+				.then(response => {
+					this.students = response.data;
+				})
+				.catch(error => {
+					console.log(error);
+				})
+
 			},
 
 			addtimeslot () {

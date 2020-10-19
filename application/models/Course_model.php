@@ -11,6 +11,7 @@ class Course_model extends CI_Model {
 							->join('subjects', 'courses.subjects_idsubjects = subjects.idsubjects')
 							->join('teachers', 'courses.teachers_idteachers = teachers.idteachers')
 							->where('subscriptions.students_idstudents', $student_id)
+							->where('courses.is_display','1')
 							->get();
 	}
 

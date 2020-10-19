@@ -66,7 +66,7 @@
   
   <script>
     $(document).ready(function () {
-      $().ready(function () {
+     // $().ready(function () {
         $sidebar = $(".sidebar");
 
         $sidebar_img_container = $sidebar.find(".sidebar-background");
@@ -81,7 +81,7 @@
           ".sidebar .sidebar-wrapper .nav li.active a p"
         ).html();
 
-      });
+    //  });
     });
   </script>
 </body>

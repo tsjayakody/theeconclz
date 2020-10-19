@@ -78,7 +78,7 @@ class Course_controller extends CI_Controller {
 
 
 	public function getAllCourses () {
-		if ($this->session->userdata('profile') === null){
+			if ($this->session->userdata('profile') === null){
 			echo json_encode(array('error' => 'You are not logged in. Please login and try again.'));
 		} else {
 			$category_id = $this->input->post('category_id');
@@ -90,7 +90,11 @@ class Course_controller extends CI_Controller {
 				$dt = array();
 				foreach ($subject_data->result_array() as $key => $value) {
 
-					$courses = $this->db->select('*')->from('courses')->where('subjects_idsubjects', $value['idsubjects']);
+					$courses = $this->db->select('*')
+					->from('courses')
+					->where('subjects_idsubjects', $value['idsubjects'])
+					->where('is_display','1');
+					
 					if ($category_id !== "") {
 						$this->db->where('course_category_idcourse_category', $category_id);
 					}
@@ -126,7 +130,6 @@ class Course_controller extends CI_Controller {
 																->select("course_name")
 																->from('courses')->join('teachers', 'teachers.idteachers = courses.teachers_idteachers')
 																->join('subjects','subjects.idsubjects = courses.subjects_idsubjects')
-																/*->join('course_fees','course_fees.courses_idcourses = courses.idcourses')*/
 																->where('idcourses',$course_id)->get();
 
 			$contents = $this->db->select('title,description,created_at,idcontents')->from('contents')->where('courses_idcourses',$course_id)->get();
@@ -188,7 +191,8 @@ class Course_controller extends CI_Controller {
 					if ($this->db->where('idsubscriptions',$subscriptions_id)->delete('subscriptions') == FALSE) {
 						exit(json_encode(array('error' => 'Something went wrong.')));
 					} else {
-						$ref_no = rand(100000,999999).$user_id;
+						//$ref_no = rand(100000,999999).$user_id;
+						$ref_no =$this->session->userdata('student_id');
 						$insert_data = array(
 							'reference_number' => $ref_no,
 							'courses_idcourses' => $course_id,
@@ -204,7 +208,8 @@ class Course_controller extends CI_Controller {
 				}
 
 			} else {
-				$ref_no = rand(100000,999999).$user_id;
+				//$ref_no = rand(100000,999999).$user_id;
+				$ref_no =$this->session->userdata('student_id');
 				$insert_data = array(
 					'reference_number' => $ref_no,
 					'courses_idcourses' => $course_id,
@@ -224,11 +229,15 @@ class Course_controller extends CI_Controller {
 
 	public function content($content_id) {
 
+		
+
     	date_default_timezone_set('Asia/Colombo');
 
 		if ($this->session->userdata('profile') === null){
 			redirect('login');
+			
 		} else {
+			
 			$data = array();
 			$user_id = $this->session->userdata('id_student');
 
@@ -238,8 +247,10 @@ class Course_controller extends CI_Controller {
 																	->where('students_idstudents',$user_id)
 																	->where('idcontents',$content_id)->get();
 
-
+			
 			if ($content_data->num_rows() > 0) {
+
+				
 
 				$content_array = $content_data->row_array();
 				$data['contentid'] = $content_array['idcontents'];
@@ -265,13 +276,14 @@ class Course_controller extends CI_Controller {
 				// end of special code block
 
 
-
-
+				
+				
 
 				if (($subscription_to >= $toDate) && $subscription_from <= $toDate) {
 
 					$timeslots = $this->db->select('*')->from('available_timeslots')->where('contents_idcontents', $content_id)->get()->result_array();
 
+					
 
 					$status = FALSE;
 					$currentTimeSlot = array();

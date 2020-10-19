@@ -64,10 +64,29 @@
 				<div class="card-body">
 					<h5 class="card-title">Student data</h5>
 					<div class="material-datatables">
+
+						<div class="row">
+						<div class="col-md-4 col-sm-4 col-12 form-group">
+							<label for="selectCategory"> Select Year</label>
+							<select name="selectCategory" v-model="categoryID" v-on:change="getAllStudents" data-style="btn btn-link" class="form-control selectpicker">
+								<option value="" selected>Select All</option>
+								<?php
+								$cts = $this->db->get('exam_year');
+								foreach ($cts->result_array() as $item) {
+									echo '<option value="'.$item['id_exam_year'].'">'.$item['years'].'</option>';
+								}
+								?>
+							</select>
+						</div>
+						
+						
+					</div>
+
 						<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0"
 							   width="100%" style="width:100%">
 							<thead>
 							<tr>
+								
 								<th>Name</th>
 								<th>Email</th>
 								<th>Phone Number</th>
@@ -78,19 +97,26 @@
 							</thead>
 							<tbody>
 							<tr v-for="(student, index) in students">
+							
 								<td>{{student.first_name}} {{student.last_name}}</td>
 								<td>{{student.email}}</td>
 								<td>{{student.phone_number}}</td>
 								<td>{{student.school}}</td>
 								<td>{{student.student_city}}</td>
-								<td>
-									<button class="btn btn-sm btn-success" v-on:click="getStudentData(student.idstudents)">Edit</button>
-									<button class="btn btn-sm btn-danger" v-on:click="deleteStudent(student.idstudents, index)">Delete</button>
-								</td>
-							</tr>
+								<td><button class="btn btn-sm btn-success" v-on:click="getStudentData(student.idstudents)">Edit</button></td>
+							</tr>			
+							<!--<tr v-for="student in students">
+								<td>{{student.first_name}} {{student.last_name}}</td>
+								<td>{{student.email}}</td>
+								<td>{{student.phone_number}}</td>
+								<td>{{student.school}}</td>
+								<td>{{student.student_city}}</td>
+								<td><button class="btn btn-sm btn-success" v-on:click="getStudentData(student.idstudents)">Edit</button></td>
+							</tr>-->
 							</tbody>
 							<tfoot>
 							<tr>
+							
 								<th>Name</th>
 								<th>Email</th>
 								<th>Phone Number</th>
@@ -109,7 +135,7 @@
 
 <script>
 	$(document).ready(function () {
-		$('#datatables').DataTable();
+		//$('#datatables').DataTable();
 	});
 </script>
 
@@ -118,13 +144,16 @@
 		el: '#studentDataApp',
 		data: {
 			students: '',
+			categoryID: '',
 			student: {
 				first_name: '',
 				last_name: '',
 				email: '',
 				phone_number: '',
 				school: '',
-				student_city: ''
+				student_city: '',
+				tableInit: false,
+				fload: false,
 			},
 			formErrors: {
 				first_name: '',
@@ -140,46 +169,41 @@
 
 		},
 		methods: {
-			deleteStudent (studentID, index) {
-				Swal.fire({
-					title: 'Are you sure?',
-					text: "This action will delete all the related data in the databse. You won't be able to revert this!",
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, delete it!'
-				}).then((result) => {
-					if (result.value) {
-						this.confirmDelete(studentID, index);
-					}
-				});
-			},
-			confirmDelete (param, index) {
-
+			getAllStudents () {
 				let formData = new FormData();
-				formData.append('student_id', param);
-
+				formData.append('category_id', this.categoryID);
+				
+				if(this.fload==true){ 
+					this.delete_datatable();
+				}	
+				
 				axios({
 					method: 'post',
-					url: '<?php echo base_url('system_operations/delete_student') ?>',
-					data : formData
-				})
-				.then(response => {
-					if (response.data.success) {
-						this.$delete(this.students, index);
-						Notiflix.Notify.Success('Student is deleted.');
+					url: '<?php echo base_url('system_operations/get_all_students') ?>',
+					data: formData
+				}).then(response => {
+					if (response.data.error) {
+						Notiflix.Notify.Failure(response.data.error);
+						this.students = Array;
+						if (!this.tableInit) {
+							this.$nextTick(function() {
+								this.initDt()
+							});
+						}
 					} else {
-						Notiflix.Notify.Failure('Student is not deleted. Try again.');
+						this.students = response.data;
+						if (!this.tableInit) {
+							this.$nextTick(function() {
+								this.initDt()
+							});
+						}
+
 					}
-				})
-				.catch(error => {
+				}).catch(error => {
 					console.log(error);
-					Notiflix.Notify.Failure('Student is not deleted. Try again.');
-				});
-			},
-			getAllStudents () {
-				axios.get('<?php echo base_url('system_operations/get_all_students') ?>').then(response => {this.students = response.data});
+				})
+
+				/*axios.get('<?php echo base_url('system_operations/get_all_students') ?>').then(response => {this.students = response.data});*/
 			},
 
 			getStudentData (studentID) {
@@ -238,6 +262,39 @@
 				}).then(function () {
 					Notiflix.Block.Remove('#loadingdiv', 600);
 				});
+			},
+		    initDt() {
+				$('#datatables').DataTable({
+					//destroy: true,
+					dom: 'Bfrtip',
+					buttons: [
+						'excel',
+						'print'
+					],
+					"pagingType": "full_numbers",
+					"lengthMenu": [
+						[10, 25, 50, -1],
+						[10, 25, 50, "All"]
+					],
+					responsive: true,
+					language: {
+						search: "_INPUT_",
+						searchPlaceholder: "Search records",
+						 
+					}
+				});
+				this.tableInit = false;
+				this.fload=true;
+
+			},
+			delete_datatable(){
+				this.students.length=0;  
+
+					$(document).ready(function() { 
+						var table = $('#datatables').DataTable();
+  						table.clear().destroy();
+  						
+					});
 			}
 		}
 	});

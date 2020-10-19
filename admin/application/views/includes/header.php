@@ -39,8 +39,16 @@
 	<link rel="stylesheet" href="<?php echo base_url() ?>assets/js/Notiflix/dist/notiflix-2.3.3.min.css">
 	<script src="<?php echo base_url() ?>assets/js/Notiflix/dist/notiflix-aio-2.3.3.min.js"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="<?php echo base_url() ?>assets/js/vue.js"></script>
+	<script src="<?php echo base_url() ?>assets/js/axios.min.js"></script>
+  <!--<script type="module">
+  import Vue from '<?php echo base_url() ?>assets/js/vue.esm.browser.js'
+</script>-->
+
+<script type="module">
+  import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.esm.browser.js'
+</script>
+
 
 </head>
 

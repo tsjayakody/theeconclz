@@ -1,4 +1,4 @@
-$(document).ready(function() {
+/*$(document).ready(function() {
 	$('#datatables').DataTable({
 		dom: 'Bfrtip',
 		buttons: [
@@ -7,3 +7,4 @@ $(document).ready(function() {
 		]
 	});
 });
+*/

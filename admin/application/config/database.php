@@ -79,7 +79,7 @@ $db['default'] = array(
 
 	'username' => 'root',
 	'password' => '',
-	'database' => 'asela_lms',
+	'database' => 'theeconclz_lms',
 
 	// 'username' => 'theeconclz_root',
 	// 'password' => '(sVp{0J0qoKc',

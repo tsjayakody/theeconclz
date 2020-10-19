@@ -31,6 +31,9 @@ class Login_controller extends CI_Controller {
         $this->form_validation->set_rules('password','Password','trim|required');
         $this->form_validation->set_rules('con_password','Retype Password','trim|required|matches[password]');
         $this->form_validation->set_rules('phone_number','Phone Number','trim|required|is_unique[students.phone_number]');
+		$this->form_validation->set_rules('school','School','trim|required');
+		$this->form_validation->set_rules('student_city','Student city','trim|required');
+		$this->form_validation->set_rules('al_year','AL year','trim|required');
         $this->form_validation->set_error_delimiters('','');
 
         if($this->form_validation->run() == FALSE)
@@ -41,7 +44,10 @@ class Login_controller extends CI_Controller {
                 'email' => form_error('email'),
                 'password' => form_error('password'),
                 'con_password' => form_error('con_password'),
-                'phone_number' => form_error('phone_number')
+                'phone_number' => form_error('phone_number'),
+				'school' => form_error('school'),
+				'student_city' => form_error('student_city'),
+				'al_year' => form_error('al_year'),
             );
             echo json_encode(array ('success'=> FALSE, 'form_errors' => $error_messages));
         } else {
@@ -214,7 +220,9 @@ class Login_controller extends CI_Controller {
 							'first_name' => $response['first_name'],
 							'last_name' => $response['last_name'],
 							'id_student' => $response['idstudents'],
-							'email' => $response['email']
+							'email' => $response['email'],
+							'student_id' => $response['student_id'],
+							'class_student' => $response['class_student']
 						);
 						//$this->session->sess_destroy();
 						$this->session->set_userdata($st_data);

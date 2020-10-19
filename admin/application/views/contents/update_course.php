@@ -124,6 +124,8 @@
 								<td class="text-right">
 									<a href="#" @click="editCourse(index)" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i></a>
 									<a href="#" @click="deleteCourse(index)" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
+									<button class="btn btn-sm btn-danger" v-if="course.is_display == 1"  @click="course_show_hide_alert(index,course.is_display)">Hide</button>
+									<button class="btn btn-sm btn-success" v-if="course.is_display == 0"  @click="course_show_hide_alert(index,course.is_display)">Display</button>
 								</td>
 							</tr>
 							</tbody>
@@ -141,8 +143,8 @@
 		el: '#updateCourse',
 		data: {
 			courses: '',
-
-
+			tableInit: false,
+			fload: false,
 			teachers: '',
 			monthlyFee: '',
 			selectedSubject: '',
@@ -153,11 +155,20 @@
 			selectedTeacher: '',
 			form_errors : '',
 			selectedCourse: '',
-			selectedCategory: ''
+			selectedCategory: '',
+			is_display: ''
 		},
 		mounted () {
 			axios.get('<?php echo base_url('system_operations/get_c_for_update_c') ?>')
-				.then(response => {this.courses = response.data.courses})
+				.then(response => {
+
+					this.courses = response.data.courses;
+					if (!this.tableInit) {
+							this.$nextTick(function() {
+								this.initDt()
+							});
+					}
+				})
 				.catch(error => {console.log(error.response.data)});
 
 			axios.get('<?php echo base_url('system_operations/get_t_for_add_cu') ?>')
@@ -166,10 +177,31 @@
 
 		},
 		methods: {
+			all_class(){
+				if(this.fload==true){ 
+					this.delete_datatable();
+				}	
+				
+				this.courses=0;
+				axios.get('<?php echo base_url('system_operations/get_c_for_update_c') ?>')
+				.then(response => {
+					this.courses = response.data.courses;
+					if (!this.tableInit) {
+							this.$nextTick(function() {
+								this.initDt()
+							});
+					}
+				})
+				.catch(error => {console.log(error.response.data)});
+
+			axios.get('<?php echo base_url('system_operations/get_t_for_add_cu') ?>')
+					.then(response => {this.teachers = response.data.teachers})
+					.catch(error => {console.log(error.response.data)});
+			},
 			deleteCourse (param) {
 				Swal.fire({
 					title: 'Are you sure?',
-					text: "This action will delete all the related data in the databse. You won't be able to revert this!",
+					text: "You won't be able to revert this!",
 					icon: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
@@ -178,6 +210,27 @@
 				}).then((result) => {
 					if (result.value) {
 						this.confirmDelete(param);
+					}
+				});
+			},
+			course_show_hide_alert (param,sh) {
+				var btn= 'Yes, view it!';
+				var val=1;
+				if(sh==1){
+					btn= 'Yes, hide it!';
+					val=0;
+				}
+				Swal.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: btn
+				}).then((result) => {
+					if (result.value) { 
+						this.confirmShowHide(param,val);
 					}
 				});
 			},
@@ -231,6 +284,38 @@
 					Notiflix.Notify.Failure('Course is not deleted. Try again.');
 				});
 			},
+
+			confirmShowHide(param,val) {
+
+				let formData = new FormData();
+				formData.append('course_id', param);
+				formData.append('now', val);
+				var msg='hidden';
+				if(val==1){
+					msg='displayed';
+				}
+				axios({
+					method: 'post',
+					url: '<?php echo base_url('system_operations/update_view_hide') ?>',
+					data : formData
+				})
+				.then(response => {
+					if (response.data.success) {
+						updateCourse.all_class();
+						// swal("Success!", "Course is deleted.", "success");
+						Notiflix.Notify.Success('Class is '+msg+'.');
+					} else {
+						Notiflix.Notify.Failure('Class is not '+msg+'. Try again.');
+						// swal("Error!", "Course is not deleted. Try again.", "error");
+					}
+				})
+				.catch(error => {
+					console.log(error);
+					// swal("Error!", "Course is not deleted. Try again.", "error");
+					Notiflix.Notify.Failure('Course is not display and hide. Try again.');
+				});
+			},
+
 			updateCourse () {
 				Notiflix.Block.Standard('#loader1');
 				let formData = new FormData();
@@ -284,6 +369,39 @@
 					console.log(error);
 				});
 			},
+			initDt() {
+				$('#datatables').DataTable({
+					//destroy: true,
+					dom: 'Bfrtip',
+					buttons: [
+						/*'excel',
+						'print'*/
+					],
+					"pagingType": "full_numbers",
+					"lengthMenu": [
+						[10, 25, 50, -1],
+						[10, 25, 50, "All"]
+					],
+					responsive: true,
+					language: {
+						search: "_INPUT_",
+						searchPlaceholder: "Search records",
+						 
+					}
+				});
+				this.tableInit = false;
+				this.fload=true;
+
+			},
+			delete_datatable(){
+				//this.AllSubs.length=0;  
+
+					$(document).ready(function() { 
+						var table = $('#datatables').DataTable();
+  						table.clear().destroy();
+  						
+					});
+			},
 			resetAll () {
 				this.selectedSubject= '';
 				this.selectedSubjectName= '';
@@ -295,7 +413,8 @@
 				this.form_errors.description = '';
 				this.selectedCourse= '';
 				this.monthlyFee= '';
-				this.selectedCategory = ''
+				this.selectedCategory = '';
+				this.is_display= '';
 			}
 		}
 	});

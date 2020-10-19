@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('#datatables').DataTable({
+/*	$('#datatables').DataTable({
 		"pagingType": "full_numbers",
 		"lengthMenu": [
 			[10, 25, 50, -1],
@@ -10,6 +10,6 @@ $(document).ready(function() {
 			search: "_INPUT_",
 			searchPlaceholder: "Search records",
 		}
-	});
+	});*/
 	$('.selectpicker').selectpicker();
 });
