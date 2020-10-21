@@ -57,6 +57,23 @@ class Myaccount_controller extends CI_Controller {
 		}
 	}
 
+	public function delete_my_pending_sub () {
+
+		$student_id = $this->session->userdata('id_student');
+		$subscription_id = $this->input->post('subscription_id');
+
+		$response = $this->db->where('students_idstudents', $student_id)
+								->where('is_allowed', 0)
+								->where('idsubscriptions', $subscription_id)
+								->delete('subscriptions');
+
+		if (!$response) {
+			echo json_encode(array('success' => false, 'message' => $response));
+		} else {
+			echo json_encode(array('success' => true));
+		}
+	}
+
     public function updateGeneralData () {
 
     	$student_id = $this->input->post('student_id');

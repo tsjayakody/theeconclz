@@ -165,76 +165,6 @@
 	      </div>
 	    </transition>
   	</div>
-
-  	<div v-if="showSubModal">
-	    <transition name="modal">
-	      <div class="modal-mask">
-	        <div class="modal-wrapper">
-	          <div class="modal-dialog" style="max-width: 90%" role="document">
-	            <div class="modal-content">
-	              <div class="modal-header">
-	                <h5 class="modal-title">Add Subscription To Student</h5>
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                  <span aria-hidden="true" @click="showSubModal = false">&times;</span>
-	                </button>
-	              	</div>
-	              	<div class="modal-body">
-	              		<div class="form-row">
-	              			<div class="col-md-4 form-group">
-	              				<input v-model="student_name" type="text" name="stname" id="stname" class="form-control" placeholder="Name">
-	              			</div>
-	              			<div class="col-md-4 form-group">
-	              				<input v-model="student_email" type="email" name="email" id="email" class="form-control" placeholder="E-Mail">
-	              			</div>
-	              			<div class="col-md-3 form-group">
-	              				<input v-model="student_phone" type="tel" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number">
-	              			</div>
-	              			<div class="col-md-1 form-group">
-	              				<input v-model="student_id" type="number" name="stid" id="stid" class="form-control" placeholder="ID">
-	              			</div>
-	              		</div>
-
-
-
-	              		<!-- first_name, last_name, Email, phone_number, idstudents -->
-
-					  <div class="table-responsive">
-					  	<h3 class="text-center mt-3 text-white bg-dark">Results</h5>
-	                    <table class="table">
-	                      <thead>
-	                        <tr>
-	                          <th>Student ID</th>
-	                          <th>Student Name</th>
-	                          <th>E-Mail</th>
-	                          <th>Phone</th>
-	                          <th class="text-right">Actions</th>
-	                        </tr>
-	                      </thead>
-	                      <tbody>
-	                        <tr v-for="(student, index) in students" v-bind:key="index">
-	                          <td>{{student.idstudents}}</td>
-	                          <td>{{student.first_name}} {{student.last_name}}</td>
-	                          <td>{{student.email}}</td>
-	                          <td>{{student.phone_number}}</td>
-	                          <td class="td-actions text-right">
-	                            <button class="btn btn-success" @click="addSub(student.idstudents)" type="button">
-	                            	Assign
-	                            </button>
-	                          </td>
-	                        </tr>
-	                      </tbody>
-	                    </table>
-	                  </div>	
-	              	</div>
-	              	<div class="modal-footer">
-	                	<button type="button" class="btn btn-secondary" @click="showSubModal = false">Close</button>
-	              	</div>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-	    </transition>
-  	</div>
 </div>
 
 
@@ -254,17 +184,9 @@
 			form_errors: '',
 			contents: '',
 			showModal: false,
-			showSubModal: true,
 			timeslots: '',
 			contentForTimeSlot: '',
-
 			
-			students: '',
-			student_name: '',
-			student_email: '',
-			student_phone: '',
-			student_id: '',
-			awaitingSearch: false,
 		},
 
 		watch: {
@@ -331,10 +253,6 @@
 				});
 			},
 
-			addSub (stid) {
-				
-			},
-
 			deleteSlot (param) {
 				let formData = new FormData();
 
@@ -359,28 +277,6 @@
 					Notiflix.Notify.Failure('Timeslot is not deleted.');
 					console.log(error.response);
 				})
-			},
-
-			searchStudent () {
-				
-				let formData = new FormData();
-				formData.append('name', this.student_name);
-				formData.append('email', this.student_email);
-				formData.append('phone', this.student_phone);
-				formData.append('id', this.student_id);
-
-				axios({
-					method: 'post',
-					url: '<?php echo base_url('system_operations/search_student_for_assign_sub') ?>',
-					data: formData
-				})
-				.then(response => {
-					this.students = response.data;
-				})
-				.catch(error => {
-					console.log(error);
-				})
-
 			},
 
 			addtimeslot () {
@@ -441,7 +337,7 @@
 						today: "fa fa-clock-o",
 						clear: "fa fa-trash-alt"
 					}
-			});
+				});
 			},
 
 			timeSlots (param) {
@@ -633,21 +529,4 @@
 	});
 </script>
 
-<style scoped>
-.modal-mask {
-	position: fixed;
-	z-index: 9998;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, .5);
-	display: table;
-	transition: opacity .3s ease;
-}
 
-.modal-wrapper {
-	display: table-cell;
-	vertical-align: middle;
-}
-</style>

@@ -403,7 +403,24 @@
 								Notiflix.Notify.Failure('Account is not verified. Please try again.');
 							}
 						} else {
-							window.location.replace('login');
+                            verificationModal.showVerifyModel = false;
+							
+                            Notiflix.Confirm.Show(
+                                'Regitration Success!',
+                                'Do you want to login now?',
+                                'Yes',
+                                'No',
+
+                                // ok button callback
+                                function(){
+                                    window.location.replace('login');
+                                },
+
+                                // cancel button callback
+                                function(){
+                                    Notiflix.Report.Failure('Canceled', 'You will not redirect to login page.', 'OK');
+                                },
+                            );
 						}
 					}).catch((error) => {
 						Notiflix.Notify.Failure('Something went wrong. Try again.');

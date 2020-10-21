@@ -78,6 +78,37 @@ class System_operations extends CI_Controller {
 		}
 	}
 
+	public function assign_student_to_course () {
+		// check for eligibility for user to execute operation
+		$res = $this->user_model->validate_user_access('udc');
+		if ($res === false) {
+			exit(json_encode(array('err'=>'You have no permission to perform this action')));
+		}
+
+		$student_id = $this->input->post('student_id');
+		$course_id = $this->input->post('course_id');
+		$from = $this->input->post('from');
+		$to = $this->input->post('to');
+
+		date_default_timezone_set('Asia/Colombo');
+
+		$insertData = array(
+			'subscription_start' => $from, 
+			'subscription_end' => $to, 
+			'subscription_date' => date('Y:m:d h:i A'), 
+			'reference_number' => 'System Added', 
+			'courses_idcourses' => $course_id, 
+			'students_idstudents' => $student_id, 
+			'is_allowed' => 1, 
+		);
+
+		if ($this->db->insert('subscriptions' , $insertData)) {
+			echo json_encode(array('success' => true));
+		} else {
+			echo json_encode(array('success' => false));
+		}
+	}
+
 	// get all the teachers form add course
 	public function get_c_for_update_c () {
 

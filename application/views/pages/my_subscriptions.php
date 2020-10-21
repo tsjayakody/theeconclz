@@ -70,8 +70,11 @@
 								<td>{{sub.subscription_date}}</td>
 								<td>{{sub.reference_number}}</td>
 								<td>{{sub.course_name}}</td>
-								<td v-if="sub.is_allowed === '1'" class="text-center"><span class="text-success">Active</span></td>
-								<td v-if="sub.is_allowed === '0'" class="text-center"><span class="text-danger">Pending</span></td>
+								<td v-if="sub.is_allowed === '1'" class="text-center"><span class="text-success btn-sm btn btn-outline-success">Active</span></td>
+								<td v-if="sub.is_allowed === '0'" class="text-center">
+									<span class="text-danger btn btn-sm btn-outline-danger">Pending</span>
+									<button class="btn btn-sm btn-danger" @click="deletePendingSub(index)">Delete</button>
+								</td>
 							</tr>
 							</tbody>
 						</table>
@@ -121,6 +124,25 @@ let mySubsApp = new Vue({
 					Notiflix.Notify.Failure(response.data.error);
 				} else {
 					this.tableData = response.data;
+				}
+			});
+		},
+
+		deletePendingSub (index) {
+
+			let formData = new FormData();
+			formData.append('subscription_id', this.tableData[index].idsubscriptions);
+
+			axios({
+				method: 'post',
+				url: '<?php echo base_url('myaccount_controller/delete_my_pending_sub') ?>',
+				data: formData,
+			}).then(response => {
+				if (response.data.success) {
+					this.tableData.splice(index, 1);
+					Notiflix.Notify.Success("Successfully deleted the subscription.");
+				} else {
+					Notiflix.Notify.Failure("Something went wrong. Try again later.");
 				}
 			});
 		}

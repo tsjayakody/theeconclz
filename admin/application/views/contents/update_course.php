@@ -81,6 +81,7 @@
 				</div>
 				<div class="card-footer ">
 					<button type="button" @click="updateCourse"  class="btn btn-fill btn-info">Update</button>
+					<button type="button" v-if="selectedCourse" @click="showSubModal = true"  class="btn btn-fill btn-success">Assign Student</button>
 				</div>
 			</div>
 		</div>
@@ -135,6 +136,90 @@
 			</div>
 		</div>
 	</div>
+	<div v-if="showSubModal">
+	    <transition name="modal">
+	      <div class="modal-mask">
+	        <div class="modal-wrapper">
+	          <div class="modal-dialog" style="max-width: 90%" role="document">
+	            <div class="modal-content">
+	              <div class="modal-header">
+	                <h5 class="modal-title">Add Subscription To Student</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                  <span aria-hidden="true" @click="showSubModal = false">&times;</span>
+	                </button>
+	              	</div>
+	              	<div class="modal-body">
+	              		<div class="form-row">
+	              			<div class="col-md-4 form-group">
+	              				<input v-model="student_name" type="text" name="stname" id="stname" class="form-control" placeholder="Name">
+	              			</div>
+	              			<div class="col-md-4 form-group">
+	              				<input v-model="student_email" type="email" name="email" id="email" class="form-control" placeholder="E-Mail">
+	              			</div>
+	              			<div class="col-md-3 form-group">
+	              				<input v-model="student_phone" type="tel" name="phone_number" id="phone_number" class="form-control" placeholder="Phone Number">
+	              			</div>
+	              			<div class="col-md-1 form-group">
+	              				<input v-model="student_id" type="number" name="stid" id="stid" class="form-control" placeholder="ID">
+	              			</div>
+	              		</div>
+
+
+
+	              		<!-- first_name, last_name, Email, phone_number, idstudents -->
+
+					  <div class="table-responsive">
+					  	<h3 class="text-center mt-3 text-white bg-dark">Subscription Daterange</h3>
+					  	<div class="form-row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="datetimepicker1">From</label>
+										<input id="datetimepicker1" type="date" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="datetimepicker2">To</label>
+										<input id="datetimepicker2" type="date" class="form-control">
+									</div>
+								</div>
+						</div>
+					  	<h3 class="text-center mt-3 text-white bg-dark">Results</h3>
+	                    <table class="table">
+	                      <thead>
+	                        <tr>
+	                          <th>Student ID</th>
+	                          <th>Student Name</th>
+	                          <th>E-Mail</th>
+	                          <th>Phone</th>
+	                          <th class="text-right">Actions</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                        <tr v-for="(student, index) in students" v-bind:key="index">
+	                          <td>{{student.idstudents}}</td>
+	                          <td>{{student.first_name}} {{student.last_name}}</td>
+	                          <td>{{student.email}}</td>
+	                          <td>{{student.phone_number}}</td>
+	                          <td class="td-actions text-right">
+	                            <button class="btn btn-success" @click="assignSub(student.idstudents)" type="button">
+	                            	Assign
+	                            </button>
+	                          </td>
+	                        </tr>
+	                      </tbody>
+	                    </table>
+	                  </div>	
+	              	</div>
+	              	<div class="modal-footer">
+	                	<button type="button" class="btn btn-secondary" @click="showSubModal = false">Close</button>
+	              	</div>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </transition>
+  	</div>
 </div>
 
 <script>
@@ -156,7 +241,54 @@
 			form_errors : '',
 			selectedCourse: '',
 			selectedCategory: '',
-			is_display: ''
+			is_display: '',
+			showSubModal: false,
+
+			students: '',
+			student_name: '',
+			student_email: '',
+			student_phone: '',
+			student_id: '',
+			awaitingSearch: false,
+		},
+		watch: {
+			student_name: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		          	console.log('innnn');
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			},
+			student_id: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			},
+			student_email: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			},
+			student_phone: function() {
+				if (!this.awaitingSearch) {
+		          setTimeout(() => {
+		            this.searchStudent();
+		            this.awaitingSearch = false;
+		          }, 1500); // 1.5 sec delay
+		        }
+		        this.awaitingSearch = true;
+			}
 		},
 		mounted () {
 			axios.get('<?php echo base_url('system_operations/get_c_for_update_c') ?>')
@@ -197,6 +329,82 @@
 			axios.get('<?php echo base_url('system_operations/get_t_for_add_cu') ?>')
 					.then(response => {this.teachers = response.data.teachers})
 					.catch(error => {console.log(error.response.data)});
+			},
+			initpicker () {
+				$('.datetimepicker').datetimepicker({
+					format: 'YYYY-MM-DD hh:mm A',
+					useCurrent: true,
+					showClear: true,
+					toolbarPlacement: 'bottom',
+					sideBySide: false,
+					icons: {
+						time: "fa fa-clock-o",
+						date: "fa fa-calendar",
+						up: "fa fa-arrow-up",
+						down: "fa fa-arrow-down",
+						previous: "fa fa-chevron-left",
+						next: "fa fa-chevron-right",
+						today: "fa fa-clock-o",
+						clear: "fa fa-trash-alt"
+					}
+				});
+			},
+
+			assignSub (student) {
+
+				if (document.getElementById('datetimepicker1').value === '') {
+					Notiflix.Notify.Failure('Please select start date.');
+					return false;
+				}
+
+				if (document.getElementById('datetimepicker2').value === '') {
+					Notiflix.Notify.Failure('Please select end date.');
+					return false;
+				}
+
+				let formData = new FormData();
+				formData.append('course_id', this.selectedCourse);
+				formData.append('student_id', student);
+				formData.append('from', document.getElementById('datetimepicker1').value);
+				formData.append('to', document.getElementById('datetimepicker2').value);
+
+				axios({
+					method: 'post',
+					url: '<?php echo base_url('system_operations/assign_student_to_course') ?>',
+					data: formData
+				}).then(response => {
+					if (response.data.success) {
+						this.showSubModal = false;
+						Notiflix.Notify.Success('Student subscribed to the course.');
+					} else {
+						Notiflix.Notify.Failure('Something went wrong. Try again later.');
+					}
+
+				}).catch(error => {
+					Notiflix.Notify.Failure('Something went wrong. Try again later.');
+				});
+			},
+
+			searchStudent () {
+				
+				let formData = new FormData();
+				formData.append('name', this.student_name);
+				formData.append('email', this.student_email);
+				formData.append('phone', this.student_phone);
+				formData.append('id', this.student_id);
+
+				axios({
+					method: 'post',
+					url: '<?php echo base_url('system_operations/search_student_for_assign_sub') ?>',
+					data: formData
+				})
+				.then(response => {
+					this.students = response.data;
+				})
+				.catch(error => {
+					console.log(error);
+				})
+
 			},
 			deleteCourse (param) {
 				Swal.fire({
@@ -419,3 +627,22 @@
 		}
 	});
 </script>
+
+<style scoped>
+.modal-mask {
+	position: fixed;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+	display: table;
+	transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+	display: table-cell;
+	vertical-align: middle;
+}
+</style>
